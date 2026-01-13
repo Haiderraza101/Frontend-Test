@@ -89,7 +89,7 @@ export function Products() {
   };
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className="flex flex-col h-full overflow-y-auto">
       {/* Page Header */}
       <ProductsHeader onCreateProduct={handleCreateProduct} />
 
@@ -109,9 +109,9 @@ export function Products() {
         selectedCount={selectedProducts.length}
       />
 
-      {/* Table Container */}
-      <div className="flex-1 overflow-hidden p-6">
-        <div className="h-full bg-white border border-gray-200 rounded-xl flex flex-col overflow-hidden shadow-sm">
+      {/* Table Container - Modified to allow scrolling */}
+      <div className="p-4 sm:p-6">
+        <div className="bg-white border border-gray-200 rounded-xl flex flex-col shadow-sm">
           {/* Table */}
           <ProductsTable
             products={paginatedItems}

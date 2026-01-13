@@ -24,23 +24,20 @@ export function ProductsPagination({
   };
 
   return (
-    <div className="px-8 py-4 bg-[#fafafa] border-t border-gray-100 flex items-center justify-between shrink-0">
+    <div className="px-4 sm:px-8 py-3 bg-[#fafafa] border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between shrink-0 gap-3 sm:gap-0">
       {/* Left Side - Info */}
-      <div className="flex items-center gap-6 text-sm text-gray-500">
-        <span className="font-medium">
-          Showing{' '}
-          <span className="text-gray-900 font-bold">{startItem}-{endItem}</span>
-          {' '}of{' '}
-          <span className="text-gray-900 font-bold">{totalItems}</span>
+      <div className="flex flex-row items-center justify-between sm:justify-start w-full sm:w-auto gap-0 sm:gap-6 text-sm text-gray-500">
+        <span className="font-medium text-xs sm:text-sm">
+          Showing <span className="text-gray-900 font-bold">{startItem}-{endItem}</span> of <span className="text-gray-900 font-bold">{totalItems}</span>
         </span>
         
-        <div className="flex items-center gap-2 border-l border-gray-200 pl-6">
-          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+        <div className="flex items-center gap-2 border-l border-gray-200 pl-4 sm:pl-6">
+          <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider hidden xs:inline">
             Page Size
           </span>
           <Select className="w-auto">
             <SelectTrigger 
-              className="h-8 min-w-[70px] bg-white focus:ring-[#16a34a] focus:border-[#16a34a] cursor-pointer" 
+              className="h-7 sm:h-8 min-w-[60px] sm:min-w-[70px] bg-white focus:ring-[#16a34a] focus:border-[#16a34a] cursor-pointer text-xs" 
               onClick={() => setIsItemsPerPageOpen(!isItemsPerPageOpen)}
             >
               <SelectValue value={itemsPerPage} />

@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronRight, Package, Calculator, HelpCircle, Tag, Folder, Pencil, ImageIcon, Zap, ChevronDown, Check, Database, Target, BarChart, Lock, Clock, MoreHorizontal, CornerDownLeft, Sparkles, Hash, Box } from 'lucide-react';
-
 import { AnimatePresence, motion } from 'framer-motion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { cn } from '../../lib/utils';
 
 export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit }) {
   const [published, setPublished] = useState(true);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: 20 },
+    visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", duration: 0.5, bounce: 0.3 } },
+    exit: { opacity: 0, scale: 0.95, y: 20 }
+  };
+
+  const drawerVariants = {
+    hidden: { x: "100%" },
+    visible: { x: 0, transition: { type: "spring", damping: 30, stiffness: 300 } },
+    exit: { x: "100%" }
+  };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className={cn(
+            "fixed inset-0 z-[100] flex",
+            isDesktop ? "items-center justify-center p-4" : "justify-end"
+          )}>
           {/* Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
@@ -22,18 +45,26 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
             onClick={onClose}
           />
           
-          {/* Modal Container */}
+          {/* Modal/Drawer Container */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-            className="relative bg-white rounded-xl w-full max-w-[900px] flex flex-col shadow-2xl cursor-default" 
-            style={{ maxHeight: 'min(750px, 95vh)' }}
+            variants={isDesktop ? modalVariants : drawerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className={cn(
+              "relative bg-white flex flex-col shadow-2xl cursor-default bg-white",
+              isDesktop 
+                ? "rounded-xl w-full max-w-[900px]" 
+                : "w-full h-full"
+            )}
+            style={isDesktop ? { maxHeight: 'min(750px, 95vh)' } : { height: '100%' }}
           >
         
         {/* HEADER */}
-        <div className="flex items-center justify-between px-6 py-2.5 border-b border-gray-100 shrink-0 bg-white rounded-t-xl">
+        <div className={cn(
+            "flex items-center justify-between px-6 py-3 border-b border-gray-100 shrink-0 bg-white",
+            isDesktop ? "rounded-t-xl" : ""
+          )}>
           <div className="flex items-center gap-2 text-[12px]">
             <span className="text-gray-500 hover:text-[#16a34a] cursor-pointer font-medium transition-colors">Products</span>
             <ChevronRight className="h-3 w-3 text-gray-300" />
@@ -43,13 +74,13 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#16a34a] bg-[#e8f5e9] px-2 py-0.5 rounded-full border border-[#c8e6c9] cursor-help" title="Your progress is automatically saved as a draft">
+            <div className="hidden sm:flex items-center gap-1.5 text-[11px] font-medium text-[#16a34a] bg-[#e8f5e9] px-2 py-0.5 rounded-full border border-[#c8e6c9] cursor-help" title="Your progress is automatically saved as a draft">
               <Check className="h-3 w-3" />
               <span>Ready to publish</span>
             </div>
             <button 
               onClick={onClose} 
-              className="p-1 text-gray-400 hover:text-black hover:bg-gray-100 rounded-md transition-all cursor-pointer"
+              className="p-1 text-gray-400 hover:text-black hover:bg-gray-100 rounded-md transition-all duration-300 hover:rotate-90 cursor-pointer"
             >
               <X className="h-4 w-4" />
             </button>
@@ -57,14 +88,17 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
         </div>
 
         {/* BODY */}
-        <div className="flex-1 flex flex-row overflow-hidden rounded-b-xl">
+        <div className={cn(
+            "flex-1 flex overflow-hidden",
+            isDesktop ? "flex-row rounded-b-xl" : "flex-col overflow-y-auto"
+          )}>
           
           {/* MAIN FORM AREA */}
           <div className="flex-1 p-6 space-y-5 overflow-visible">
             
             {/* ROW 1 */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-2 space-y-1.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="col-span-1 sm:col-span-2 space-y-1.5">
                 <label className="text-[12px] font-bold text-gray-700 flex items-center gap-1.5 cursor-default">
                   Product Name <HelpCircle className="h-3 w-3 text-gray-300 cursor-help" />
                 </label>
@@ -87,7 +121,7 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
                   <SelectContent 
                     isOpen={isCategoryOpen}
                     onClose={() => setIsCategoryOpen(false)}
-                    className="border-[#16a34a]/20 z-[200]"
+                    className="border-[#16a34a]/20 z-[200] w-full"
                   >
                     <SelectItem value="electronics" className="cursor-pointer" onClick={() => { setSelectedCategory('Electronics'); setIsCategoryOpen(false); }}>Electronics</SelectItem>
                     <SelectItem value="accessories" className="cursor-pointer" onClick={() => { setSelectedCategory('Accessories'); setIsCategoryOpen(false); }}>Accessories</SelectItem>
@@ -98,7 +132,7 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
             </div>
 
             {/* ROW 2 */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5">
                 <label className="text-[12px] font-bold text-gray-700 flex items-center gap-1.5 cursor-default">
                   Price ($) <Calculator className="h-3 w-3 text-gray-300 cursor-help" />
@@ -134,7 +168,7 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
             </div>
 
             {/* ROW 3 */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="col-span-1 space-y-1.5">
                 <label className="text-[12px] font-bold text-gray-700 cursor-default">Collection</label>
                 <button type="button" className="w-full h-9 px-3 bg-white border border-gray-300 rounded-lg flex items-center justify-between hover:border-[#16a34a] transition-all group cursor-pointer focus:ring-1 focus:ring-[#16a34a]">
@@ -147,7 +181,7 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
                   <ChevronDown className="h-4 w-4 text-gray-400 transition-transform group-hover:rotate-180" />
                 </button>
               </div>
-              <div className="col-span-2 space-y-1.5">
+              <div className="col-span-1 sm:col-span-2 space-y-1.5">
                 <label className="text-[12px] font-bold text-gray-700 cursor-default">Tags</label>
                 <div className="relative group">
                   <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 pointer-events-none transition-colors group-focus-within:text-[#16a34a]" />
@@ -172,7 +206,7 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
             </div>
 
             {/* STATUS & PROMO AREA */}
-            <div className="flex items-center justify-between gap-4 pt-1">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-1">
               <div className="flex-1 bg-[#F0FDF4] border border-[#BBF7D0] rounded-lg p-2.5 flex items-center justify-between cursor-default">
                 <div className="flex items-center gap-2">
                   <div className="h-7 w-7 bg-white rounded-md border border-[#BBF7D0] flex items-center justify-center">
@@ -182,7 +216,7 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
                 </div>
                 <button type="button" className="text-[11px] font-bold text-[#166534] underline underline-offset-2 cursor-pointer hover:text-green-800 transition-colors">Invite Only</button>
               </div>
-              <div className="flex items-center gap-3 px-4 py-2 border border-gray-100 rounded-lg bg-gray-50/50 cursor-default">
+              <div className="flex items-center gap-3 px-4 py-2 border border-gray-100 rounded-lg bg-gray-50/50 cursor-default justify-between sm:justify-start">
                 <span className="text-[12px] font-bold text-gray-700">Live Status:</span>
                 <button 
                   type="button" 
@@ -197,7 +231,12 @@ export function ProductModal({ isOpen, onClose, onSubmit, register, handleSubmit
           </div>
 
           {/* RIGHT SIDEBAR */}
-          <div className="w-[280px] bg-[#fafafa] border-l border-gray-100 flex flex-col p-6 space-y-6 shrink-0 cursor-default">
+          <div className={cn(
+              "bg-[#fafafa] shrink-0 cursor-default p-6",
+              isDesktop 
+                ? "w-[280px] border-l border-gray-100 flex flex-col space-y-6" 
+                : "w-full border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-6"
+            )}>
             
             {/* Image Preview Area */}
             <div className="space-y-2">
