@@ -3,10 +3,6 @@ import { Button } from '../ui/button';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../ui/select';
 import { cn } from '../../lib/utils';
 
-/**
- * ProductsPagination Component
- * Handles pagination controls and page size selection
- */
 export function ProductsPagination({
   currentPage,
   totalPages,
@@ -23,12 +19,12 @@ export function ProductsPagination({
 
   const handleItemsPerPageChange = (value) => {
     onItemsPerPageChange(value);
-    onPageChange(1); // Reset to first page
+    onPageChange(1); 
     setIsItemsPerPageOpen(false);
   };
 
   return (
-    <div className="px-8 py-5 bg-[#fafafa] border-t border-gray-100 flex items-center justify-between shrink-0">
+    <div className="px-8 py-4 bg-[#fafafa] border-t border-gray-100 flex items-center justify-between shrink-0">
       {/* Left Side - Info */}
       <div className="flex items-center gap-6 text-sm text-gray-500">
         <span className="font-medium">
@@ -44,7 +40,7 @@ export function ProductsPagination({
           </span>
           <Select className="w-auto">
             <SelectTrigger 
-              className="h-8 min-w-[70px] shadow-sm bg-white" 
+              className="h-8 min-w-[70px] bg-white focus:ring-[#16a34a] focus:border-[#16a34a] cursor-pointer" 
               onClick={() => setIsItemsPerPageOpen(!isItemsPerPageOpen)}
             >
               <SelectValue value={itemsPerPage} />
@@ -52,10 +48,12 @@ export function ProductsPagination({
             <SelectContent 
               isOpen={isItemsPerPageOpen} 
               onClose={() => setIsItemsPerPageOpen(false)}
+              className="bottom-full mt-0 mb-2 border-[#16a34a]/20"
             >
               {pageSizeOptions.map(size => (
                 <SelectItem 
                   key={size} 
+                  isSelected={itemsPerPage === size}
                   onClick={() => handleItemsPerPageChange(size)}
                 >
                   {size}
@@ -72,7 +70,7 @@ export function ProductsPagination({
           disabled={currentPage === 1} 
           onClick={() => onPageChange(currentPage - 1)} 
           variant="outline" 
-          className="h-9 px-4 text-xs font-bold rounded-lg shadow-sm"
+          className="h-9 px-4 text-xs font-bold rounded-lg cursor-pointer"
         >
           Prev
         </Button>
@@ -85,9 +83,9 @@ export function ProductsPagination({
                 key={pageNumber} 
                 onClick={() => onPageChange(pageNumber)} 
                 className={cn(
-                  "h-8 w-8 p-0 text-xs font-bold rounded-lg transition-all", 
+                  "h-8 w-8 p-0 text-xs font-bold rounded-lg transition-all cursor-pointer", 
                   currentPage === pageNumber 
-                    ? "bg-black text-white shadow-md shadow-black/10" 
+                    ? "bg-black text-white" 
                     : "bg-transparent text-gray-400 hover:text-black"
                 )}
               >
@@ -101,7 +99,7 @@ export function ProductsPagination({
           disabled={currentPage === totalPages} 
           onClick={() => onPageChange(currentPage + 1)} 
           variant="outline" 
-          className="h-9 px-4 text-xs font-bold rounded-lg shadow-sm"
+          className="h-9 px-4 text-xs font-bold rounded-lg cursor-pointer"
         >
           Next
         </Button>

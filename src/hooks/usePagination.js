@@ -1,9 +1,5 @@
 import { useState, useMemo } from 'react';
 
-/**
- * usePagination Hook
- * Manages pagination state and logic
- */
 export function usePagination(items, initialItemsPerPage = 7) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
@@ -21,7 +17,7 @@ export function usePagination(items, initialItemsPerPage = 7) {
 
   const handleItemsPerPageChange = (newItemsPerPage) => {
     setItemsPerPage(newItemsPerPage);
-    setCurrentPage(1); // Reset to first page when changing items per page
+    setCurrentPage(1);
   };
 
   return {

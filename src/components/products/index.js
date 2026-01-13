@@ -1,8 +1,3 @@
-/**
- * Products Components Barrel Export
- * Centralized export for all product-related components
- */
-
 export { ProductsHeader } from './ProductsHeader';
 export { ProductsFilterBar } from './ProductsFilterBar';
 export { ProductsTable } from './ProductsTable';

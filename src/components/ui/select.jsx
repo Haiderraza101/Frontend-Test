@@ -17,7 +17,7 @@ const SelectTrigger = React.forwardRef(({ className, children, ...props }, ref) 
     ref={ref}
     type="button"
     className={cn(
-      "flex h-9 w-full items-center justify-between rounded-lg border border-gray-100 bg-white px-3 py-2 text-[13px] font-medium text-gray-600 shadow-sm outline-none transition-all hover:border-gray-300 focus:ring-1 focus:ring-black disabled:cursor-not-allowed disabled:opacity-50",
+      "flex h-9 w-full items-center justify-between rounded-lg border border-gray-100 bg-white px-3 py-2 text-[13px] font-medium text-gray-600 shadow-sm outline-none transition-all hover:border-gray-300 focus:ring-1 focus:ring-[#16a34a] focus:border-[#16a34a] disabled:cursor-not-allowed disabled:opacity-50",
       className
     )}
     {...props}

@@ -2,10 +2,6 @@ import React from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '../ui/button';
 
-/**
- * ProductsHeader Component
- * Displays the page title, description, and create product button
- */
 export function ProductsHeader({ onCreateProduct }) {
   return (
     <div className="flex items-center justify-between px-8 py-6 bg-white border-b border-gray-100 shrink-0">
@@ -15,7 +11,7 @@ export function ProductsHeader({ onCreateProduct }) {
       </div>
       <Button 
         onClick={onCreateProduct}
-        className="bg-black hover:bg-gray-800 text-white rounded-lg h-10 px-5 font-medium shadow-sm transition-all active:scale-95"
+        className="bg-black hover:bg-gray-800 text-white rounded-lg h-9 px-4 text-xs font-bold transition-all cursor-pointer"
       >
         <Plus className="h-4 w-4 mr-2" />
         Create Product

@@ -2,10 +2,6 @@ import React from 'react';
 import { Check } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-/**
- * ProductTableHeader Component
- * Displays table column headers with select all checkbox
- */
 export function ProductTableHeader({ 
   selectedCount, 
   totalCount, 
@@ -14,15 +10,15 @@ export function ProductTableHeader({
   const isAllSelected = selectedCount === totalCount && totalCount > 0;
 
   return (
-    <thead className="sticky top-0 z-20 bg-[#f9fafb]">
+    <thead className="sticky top-0 z-20 bg-[#fafafa]">
       <tr className="border-b border-gray-200">
         <th className="px-6 py-4 w-10">
           <div 
             className={cn(
               "w-4 h-4 rounded border cursor-pointer flex items-center justify-center transition-all", 
               isAllSelected 
-                ? "bg-black border-black" 
-                : "border-gray-300 bg-white"
+                ? "bg-[#16a34a] border-[#16a34a]" 
+                : "border-gray-300 bg-white hover:border-[#16a34a]"
             )}
             onClick={onToggleSelectAll}
           >

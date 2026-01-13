@@ -1,9 +1,5 @@
 import { useState, useMemo } from 'react';
 
-/**
- * useProductFilters Hook
- * Manages all filtering logic for products
- */
 export function useProductFilters(products) {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');

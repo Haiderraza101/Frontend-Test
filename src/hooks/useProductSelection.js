@@ -1,9 +1,5 @@
 import { useState } from 'react';
 
-/**
- * useProductSelection Hook
- * Manages product selection state for checkboxes
- */
 export function useProductSelection() {
   const [selectedProducts, setSelectedProducts] = useState([]);
 

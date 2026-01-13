@@ -153,7 +153,7 @@ export function DashboardLayout() {
          </div>
       </div>
 
-      {/* 3. Main Content Area */}
+      {/*Main Content Area */}
       <div className="flex-1 min-w-0 bg-[#fafafa] pt-2 pr-2 pb-2">
          {/* The White Card Container with Rounded Top-Left */}
          <div className="h-full w-full overflow-hidden rounded-tl-3xl bg-white shadow-sm border border-gray-100/50 flex flex-col relative">
@@ -179,7 +179,6 @@ export function DashboardLayout() {
   );
 }
 
-// Helper specific to this layout
 function NavItem({ active, to, icon: Icon, label }) {
   return (
     <Link
@@ -187,7 +186,7 @@ function NavItem({ active, to, icon: Icon, label }) {
       className={cn(
         "group flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-[13px] font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-green-500",
         active
-          ? "bg-[#e8f5e9] text-[#16a34a]" // Green active state matching image
+          ? "bg-[#e8f5e9] text-[#16a34a]"
           : "text-gray-600 hover:bg-gray-100/80 hover:text-gray-900"
       )}
     >

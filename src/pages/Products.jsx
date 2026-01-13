@@ -2,44 +2,28 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-// Components
 import { ProductsHeader } from '../components/products/ProductsHeader';
 import { ProductsFilterBar } from '../components/products/ProductsFilterBar';
 import { ProductsTable } from '../components/products/ProductsTable';
 import { ProductsPagination } from '../components/products/ProductsPagination';
 import { ProductModal } from '../components/products/ProductModal';
 
-// Hooks
+
 import { useProductFilters } from '../hooks/useProductFilters';
 import { usePagination } from '../hooks/usePagination';
 import { useProductSelection } from '../hooks/useProductSelection';
 
-// Constants & Schemas
 import { MOCK_PRODUCTS } from '../constants/products';
 import { productSchema } from '../schemas/productSchema';
 
-/**
- * Products Page Component
- * Main page for managing products with filtering, pagination, and CRUD operations
- * 
- * Architecture:
- * - Highly modular with separated concerns
- * - Custom hooks for business logic
- * - Presentational components for UI
- * - Clear data flow and state management
- */
 export function Products() {
-  // State Management
   const [products, setProducts] = useState(MOCK_PRODUCTS);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  
-  // UI State for dropdowns
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isItemsPerPageOpen, setIsItemsPerPageOpen] = useState(false);
 
-  // Custom Hooks
   const {
     searchQuery,
     setSearchQuery,
@@ -64,12 +48,10 @@ export function Products() {
     clearSelection
   } = useProductSelection();
 
-  // Form Management
   const { register, handleSubmit, reset } = useForm({
     resolver: zodResolver(productSchema),
   });
 
-  // Event Handlers
   const handleCreateProduct = () => {
     setIsModalOpen(true);
   };
@@ -96,12 +78,18 @@ export function Products() {
     handleCloseModal();
   };
 
+  const handleResetFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('All');
+    setSelectedDate(new Date());
+  };
+
   const handleToggleSelectAll = () => {
     toggleSelectAll(paginatedItems);
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#fafafa] overflow-hidden">
+    <div className="flex flex-col h-full overflow-hidden">
       {/* Page Header */}
       <ProductsHeader onCreateProduct={handleCreateProduct} />
 
@@ -117,6 +105,8 @@ export function Products() {
         setIsCalendarOpen={setIsCalendarOpen}
         isStatusOpen={isStatusOpen}
         setIsStatusOpen={setIsStatusOpen}
+        onReset={handleResetFilters}
+        selectedCount={selectedProducts.length}
       />
 
       {/* Table Container */}

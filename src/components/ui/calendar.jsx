@@ -10,7 +10,6 @@ const DateCalendar = ({ selectedDate, onSelectDate }) => {
     new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
   );
 
-  // Get the first and last day of the current month
   const startOfMonth = new Date(
     currentMonth.getFullYear(),
     currentMonth.getMonth(),
@@ -29,14 +28,12 @@ const DateCalendar = ({ selectedDate, onSelectDate }) => {
 
   const days = [];
 
-  // Fill leading days from previous month
   for (let i = startOfMonth.getDay() - 1; i >= 0; i--) {
     const d = new Date(prevMonthEnd);
     d.setDate(prevMonthEnd.getDate() - i);
     days.push({ date: d, isCurrentMonth: false });
   }
 
-  // Fill current month days
   for (let i = 1; i <= endOfMonth.getDate(); i++) {
     days.push({
       date: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i),
@@ -44,14 +41,12 @@ const DateCalendar = ({ selectedDate, onSelectDate }) => {
     });
   }
 
-  // Fill trailing days to complete the last week
   while (days.length % 7 !== 0) {
     const nextDay = new Date(endOfMonth);
     nextDay.setDate(endOfMonth.getDate() + (days.length - startOfMonth.getDay() + 1));
     days.push({ date: nextDay, isCurrentMonth: false });
   }
 
-  // Month navigation
   const changeMonth = (offset) => {
     const newMonth = new Date(currentMonth);
     newMonth.setMonth(currentMonth.getMonth() + offset);

@@ -2,10 +2,6 @@ import React from 'react';
 import { ProductTableHeader } from './ProductTableHeader';
 import { ProductTableRow } from './ProductTableRow';
 
-/**
- * ProductsTable Component
- * Main table component that combines header and rows
- */
 export function ProductsTable({ 
   products, 
   selectedProducts, 
@@ -13,7 +9,7 @@ export function ProductsTable({
   onToggleSelect 
 }) {
   return (
-    <div className="flex-1 overflow-auto no-scrollbar">
+    <div className="flex-1 overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
       <table className="w-full text-left border-collapse min-w-[900px]">
         <ProductTableHeader
           selectedCount={selectedProducts.length}
@@ -21,12 +17,13 @@ export function ProductsTable({
           onToggleSelectAll={onToggleSelectAll}
         />
         <tbody className="divide-y divide-gray-100">
-          {products.map((product) => (
+          {products.map((product, index) => (
             <ProductTableRow
               key={product.id}
               product={product}
               isSelected={selectedProducts.includes(product.id)}
               onToggleSelect={onToggleSelect}
+              index={index}
             />
           ))}
         </tbody>

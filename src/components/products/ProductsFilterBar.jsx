@@ -1,15 +1,11 @@
 import React from 'react';
-import { Search, Filter, Calendar as CalendarIcon, ChevronDown } from 'lucide-react';
+import { Search, Calendar as CalendarIcon, ChevronDown, RotateCcw, Trash2 } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../ui/select';
 import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
 import DateCalendar from '../ui/calendar';
 
-/**
- * ProductsFilterBar Component
- * Handles all filtering functionality including search, date, and status filters
- */
 export function ProductsFilterBar({
   searchQuery,
   onSearchChange,
@@ -20,7 +16,10 @@ export function ProductsFilterBar({
   isCalendarOpen,
   setIsCalendarOpen,
   isStatusOpen,
-  setIsStatusOpen
+  setIsStatusOpen,
+
+  onReset,
+  selectedCount = 0
 }) {
   const formattedDate = selectedDate.toLocaleDateString('en-GB', { 
     day: '2-digit', 
@@ -34,19 +33,19 @@ export function ProductsFilterBar({
     <div className="px-8 py-4 bg-white border-b border-gray-100 flex items-center gap-3 shrink-0">
       {/* Search Input */}
       <div className="relative flex-1 max-w-sm">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-[#16a34a]" />
         <Input 
           placeholder="Search products..." 
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-9 h-10 border-gray-200 bg-gray-50/50 focus:bg-white text-sm rounded-lg"
+          className="pl-9 h-10 border-gray-200 bg-gray-50/50 focus:bg-white text-sm rounded-lg focus:ring-1 focus:ring-[#16a34a] focus:border-[#16a34a] ring-offset-0 transition-all"
         />
       </div>
 
       {/* Date Picker */}
       <Popover>
         <PopoverTrigger 
-          className="flex items-center gap-2 px-3 h-10 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 transition-colors shadow-sm"
+          className="flex items-center gap-2 px-3 h-10 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 transition-all outline-none focus:ring-1 focus:ring-[#16a34a] focus:border-[#16a34a]"
           onClick={() => setIsCalendarOpen(!isCalendarOpen)}
         >
           <CalendarIcon className="h-4 w-4 text-gray-400" />
@@ -57,7 +56,7 @@ export function ProductsFilterBar({
           isOpen={isCalendarOpen} 
           onClose={() => setIsCalendarOpen(false)} 
           align="left" 
-          className="p-0"
+          className="p-0 border-[#16a34a]/20"
         >
           <DateCalendar 
             selectedDate={selectedDate} 
@@ -72,7 +71,7 @@ export function ProductsFilterBar({
       {/* Status Filter */}
       <Select className="w-auto">
         <SelectTrigger 
-          className="h-10 min-w-[130px] text-sm shadow-sm" 
+          className="h-10 min-w-[130px] text-sm cursor-pointer" 
           onClick={() => setIsStatusOpen(!isStatusOpen)}
         >
           <SelectValue value={statusFilter === 'All' ? 'All Status' : statusFilter} />
@@ -80,6 +79,7 @@ export function ProductsFilterBar({
         <SelectContent 
           isOpen={isStatusOpen} 
           onClose={() => setIsStatusOpen(false)}
+          className="border-[#16a34a]/20"
         >
           {statusOptions.map(status => (
             <SelectItem 
@@ -96,14 +96,31 @@ export function ProductsFilterBar({
         </SelectContent>
       </Select>
 
-      {/* Additional Filters Button */}
+
+
+      {/* Reset Filter Button */}
       <Button 
         variant="ghost" 
-        className="h-10 px-4 text-gray-500 hover:text-gray-900 font-medium text-sm"
+        onClick={onReset}
+        className="h-10 px-4 text-[#16a34a] hover:text-[#15803d] hover:bg-[#dcfce7]/50 font-medium text-sm transition-colors"
       >
-        <Filter className="h-4 w-4 mr-2" />
-        Filters
+        <RotateCcw className="h-4 w-4 mr-2" />
+        Reset Filter
       </Button>
+
+      {/* Bulk Actions */}
+      {selectedCount > 0 && (
+        <>
+          <div className="h-6 w-px bg-gray-200 mx-1" />
+          <Button 
+            variant="ghost" 
+            className="h-10 px-4 text-red-600 hover:text-red-700 hover:bg-red-50 font-medium text-sm transition-colors animate-in fade-in slide-in-from-right-5 duration-200"
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            Delete ({selectedCount})
+          </Button>
+        </>
+      )}
     </div>
   );
 }
