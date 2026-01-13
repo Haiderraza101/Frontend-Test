@@ -7,6 +7,8 @@ export function ProductTableRow({
   product, 
   isSelected, 
   onToggleSelect,
+  onEditProduct,
+  onDeleteProduct,
   index 
 }) {
   const getStockBadge = (stock) => {
@@ -80,8 +82,12 @@ export function ProductTableRow({
       {/* Product Info */}
       <td className="px-4 py-4">
         <div className="flex items-center gap-4">
-          <div className="h-10 w-10 rounded-lg border border-gray-100 flex items-center justify-center bg-gray-50 text-xl">
-            {product.image}
+          <div className="h-10 w-10 rounded-lg border border-gray-100 flex items-center justify-center bg-gray-50 text-xl overflow-hidden">
+            {product.imageUrl ? (
+              <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+            ) : (
+              product.image
+            )}
           </div>
           <div>
             <p className="font-bold text-gray-900 text-[13px]">{product.name}</p>
@@ -127,14 +133,16 @@ export function ProductTableRow({
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-8 w-8 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            onClick={() => onEditProduct(product)}
+            className="h-8 w-8 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
           >
             <Pencil className="h-4 w-4" />
           </Button>
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            onClick={() => onDeleteProduct(product)}
+            className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
           >
             <Trash2 className="h-4 w-4" />
           </Button>

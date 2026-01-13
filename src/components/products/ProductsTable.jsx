@@ -9,7 +9,9 @@ export function ProductsTable({
   products, 
   selectedProducts, 
   onToggleSelectAll, 
-  onToggleSelect 
+  onToggleSelect,
+  onEditProduct,
+  onDeleteProduct
 }) {
 
   const getStockBadge = (stock) => {
@@ -67,6 +69,8 @@ export function ProductsTable({
               product={product}
               isSelected={selectedProducts.includes(product.id)}
               onToggleSelect={onToggleSelect}
+              onEditProduct={onEditProduct}
+              onDeleteProduct={onDeleteProduct}
               index={index}
             />
           ))}
@@ -147,18 +151,20 @@ export function ProductsTable({
                  <div className="text-[11px] text-gray-400 font-medium italic">
                     Added: {new Date().toLocaleDateString()}
                  </div>
-                 <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2">
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-8 w-8 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-gray-200/50"
+                      onClick={() => onEditProduct(product)}
+                      className="h-8 w-8 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-gray-200/50 cursor-pointer"
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-gray-200/50"
+                      onClick={() => onDeleteProduct(product)}
+                      className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-gray-200/50 cursor-pointer"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

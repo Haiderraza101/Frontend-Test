@@ -19,7 +19,8 @@ export function ProductsFilterBar({
   setIsStatusOpen,
 
   onReset,
-  selectedCount = 0
+  selectedCount = 0,
+  onDeleteSelected
 }) {
   const formattedDate = selectedDate.toLocaleDateString('en-GB', { 
     day: '2-digit', 
@@ -45,7 +46,7 @@ export function ProductsFilterBar({
       {/* Date Picker */}
       <Popover>
         <PopoverTrigger 
-          className="flex items-center justify-between md:justify-start gap-2 px-3 h-10 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 transition-all outline-none focus:ring-1 focus:ring-[#16a34a] focus:border-[#16a34a] w-full md:w-auto"
+          className="flex items-center justify-between md:justify-start gap-2 px-3 h-10 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 transition-all outline-none focus:ring-1 focus:ring-[#16a34a] focus:border-[#16a34a] w-full md:w-auto cursor-pointer"
           onClick={() => setIsCalendarOpen(!isCalendarOpen)}
         >
           <CalendarIcon className="h-4 w-4 text-gray-400" />
@@ -102,7 +103,7 @@ export function ProductsFilterBar({
       <Button 
         variant="ghost" 
         onClick={onReset}
-        className="h-10 px-4 text-[#16a34a] hover:text-[#15803d] hover:bg-[#dcfce7]/50 font-medium text-sm transition-colors w-full md:w-auto"
+        className="h-10 px-4 text-[#16a34a] hover:text-[#15803d] hover:bg-[#dcfce7]/50 font-medium text-sm transition-colors w-full md:w-auto cursor-pointer"
       >
         <RotateCcw className="h-4 w-4 mr-2" />
         Reset Filter
@@ -115,7 +116,8 @@ export function ProductsFilterBar({
           <div className="hidden md:block lg:block h-6 w-px bg-gray-200 mx-1 md:hidden lg:block" />
           <Button 
             variant="ghost" 
-            className="h-10 px-4 text-red-600 hover:text-red-700 hover:bg-red-50 font-medium text-sm transition-colors animate-in fade-in slide-in-from-right-5 duration-200 w-full md:w-auto md:ml-auto lg:ml-0"
+            onClick={onDeleteSelected}
+            className="h-10 px-4 text-red-600 hover:text-red-700 hover:bg-red-50 font-medium text-sm transition-colors animate-in fade-in slide-in-from-right-5 duration-200 w-full md:w-auto md:ml-auto lg:ml-0 cursor-pointer"
           >
             <Trash2 className="h-4 w-4 mr-2" />
             Delete ({selectedCount})
