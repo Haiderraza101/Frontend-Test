@@ -19,7 +19,6 @@ import { cn } from '../lib/utils';
 export function DashboardLayout() {
   const location = useLocation();
   
-  // Helper to determine active state
   const isActive = (path) => {
     if (path === '/home' && (location.pathname === '/' || location.pathname === '/home')) return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
@@ -28,9 +27,8 @@ export function DashboardLayout() {
 
   return (
     <div className="flex h-screen bg-[#f3f4f6]">
-      {/* 1. App Switcher Rail (Far Left) */}
       <div className="flex w-[60px] shrink-0 flex-col items-center border-r border-gray-200 bg-[#fafafa] py-4">
-        {/* Logo Area */}
+
         <div className="mb-6 flex h-8 w-8 items-center justify-center font-bold text-lg tracking-tighter text-black">
           SLAP
         </div>
@@ -171,8 +169,8 @@ export function DashboardLayout() {
                  </div>
              </div>
 
-            {/* Content Scroll Area */}
-            <main className="flex-1 overflow-y-auto p-6">
+            {/* Content Area - No scroll or padding here, children handle it */}
+            <main className="flex-1 overflow-hidden">
               <Outlet />
             </main>
          </div>
