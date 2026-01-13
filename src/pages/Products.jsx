@@ -7,7 +7,7 @@ import { ProductsHeader } from '../components/products/ProductsHeader';
 import { ProductsFilterBar } from '../components/products/ProductsFilterBar';
 import { ProductsTable } from '../components/products/ProductsTable';
 import { ProductsPagination } from '../components/products/ProductsPagination';
-import { CreateProductModal } from '../components/products/CreateProductModal';
+import { ProductModal } from '../components/products/ProductModal';
 
 // Hooks
 import { useProductFilters } from '../hooks/useProductFilters';
@@ -145,7 +145,7 @@ export function Products() {
       </div>
 
       {/* Create Product Modal */}
-      <CreateProductModal
+      <ProductModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSubmit={handleSubmitProduct}
